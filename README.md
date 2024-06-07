@@ -7,12 +7,7 @@ Welcome to your new Bun project! This project is a REST API using Bun + Hono + M
 - [Getting Started](#getting-started)
   - [Installations](#installations)
   - [Configuration](#configuration)
-  - [Routes](#routes)
-  - [Usage](#usage)
 - [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
 
 ## Getting Started
 
@@ -57,56 +52,6 @@ MONGO_URI=mongodb://localhost:27017/bun-hono-rest-api
 JWT_SECRET=secret
 ```
 
-### Routes
-
-```
-POST /api/v1/users (Create User)
-POST /api/v1/users/login (Login User)
-GET /api/v1/users/profile (Get User Profile)
-GET /api/v1/useres (Get All Users)
-GET /api/v1/users/:id (Get User By Id)
-```
-
-### Usage
-
-```
-POST /api/v1/users (Create User)
-```
-
-```json
-{
-  "name": "Mehedi Hasan",
-  "email": "mehedi@example.com",
-  "password": "123456"
-}
-```
-
-```
-POST /api/v1/users/login (Login User)
-```
-
-```json
-{
-  "email": "mehedi@example.com",
-  "password": "123456"
-}
-```
-
-```
-GET /api/v1/users/profile (Get User Profile)
-Authorisation Header (Bearer Token)
-```
-
-```
-GET /api/v1/useres (Get All Users)
-Authorisation Header (Bearer Token)
-```
-
-```
-GET /api/v1/users/:id (Get User By Id)
-Authorisation Header (Bearer Token)
-```
-
 ## Project Structure
 
 ```
@@ -115,15 +60,13 @@ Authorisation Header (Bearer Token)
 │ ├── settings.json
 ├── config
 │ ├── db.ts
-├── controllers
-│ ├── user.ts
 ├── middlewares
 │ ├── authMiddlewares.ts
 │ ├── errorMiddlewares.ts
-├── models
-│ ├── userModels.ts
-├── routes
-│ ├── userRoutes.ts
+├── module
+│ ├── auth
+| | ├── index.ts
+| | ├── model.ts
 ├── utils
 │ ├── getToken.ts
 ├── server.ts
@@ -135,17 +78,3 @@ Authorisation Header (Bearer Token)
 ├── tsconfig.ts
 
 ```
-
-## Contributing
-
-We welcome contributions to improve the API! If you find a bug, have a feature request, or want to suggest improvements, please create an issue in the GitHub repository. If you'd like to contribute code, feel free to fork the repository, create a new branch, commit your changes, and open a pull request.
-
-Please ensure that your code follows the existing coding style and conventions.
-
-## License
-
-This project is licensed under the [MIT] License
-
-## Contact
-
-If you have any questions or need further assistance, you can reach us at [Mehedi Hasan](fb.com/promehedi).
