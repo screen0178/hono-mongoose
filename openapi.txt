@@ -1,0 +1,125 @@
+openapi: 3.0.0
+info:
+  title: Bun-hono-mongodb
+  version: 1.0.0
+servers:
+  - url: http://{{local}}
+tags:
+  - name: Users
+  - name: Auth
+paths:
+  /api/v1/users:
+    post:
+      tags:
+        - Users
+      summary: Create Users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Admin Malik
+                email: admin+1@malik.com
+                isAdmin: false
+                password: "123456"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - Users
+      summary: Get Users
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/users/{id}:
+    get:
+      tags:
+        - Users
+      summary: Get Users by Id
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 6662ca9d6a4d3d55565f0c91
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Users
+      summary: Update Users by Id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Admin Malik 1
+                email: admin@malik.com
+                isAdmin: "true"
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 6662ca9d6a4d3d55565f0c91
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Users
+      summary: Delete Users by Id
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 6662dc0438b62e94d2504f05
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: admin@malik.com
+                password: "123456"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /:
+    get:
+      tags:
+        - default
+      summary: /
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}

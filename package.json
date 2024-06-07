@@ -13,6 +13,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@hono/swagger-ui": "^0.2.2",
     "hono": "^3.3.4",
     "mongoose": "^7.4.1"
   }
