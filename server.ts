@@ -26,7 +26,7 @@ app.use(
 );
 
 // Home Route
-app.get("/", (c) => c.text("Welcome to the API!"));
+app.get("/", (c) => c.json({ status: "API server is ready" }));
 app.route("/api", v1);
 
 // Error Handler
