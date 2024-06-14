@@ -2,21 +2,23 @@ import { Document, Schema, model } from "mongoose";
 
 interface IUser {
   name: string;
+  username: string;
   email: string;
   password: string;
-  isAdmin: boolean;
+  verified: boolean;
 }
 
-interface IUserDoc extends IUser, Document {
-  mathPassword: (pass: string) => Promise<boolean>;
+export interface IUserDoc extends IUser, Document {
+  comparePassword: (pass: string) => Promise<boolean>;
 }
 
 const userSchema = new Schema<IUserDoc>(
   {
     name: { type: String, required: true },
+    username: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    isAdmin: { type: Boolean, required: true, default: false },
+    verified: { type: Boolean, required: true, default: false },
   },
   {
     timestamps: true,
@@ -24,7 +26,7 @@ const userSchema = new Schema<IUserDoc>(
 );
 
 // Match user entered password to hashed password in database
-userSchema.methods.mathPassword = async function (enteredPassword: string) {
+userSchema.methods.comparePassword = async function (enteredPassword: string) {
   return Bun.password.verifySync(enteredPassword, this.password);
 };
 

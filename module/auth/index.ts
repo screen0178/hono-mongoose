@@ -20,7 +20,7 @@ auth.post("/login", async (c) => {
     throw new Error("No user found with this email");
   }
 
-  if (!(await user.mathPassword(password))) {
+  if (!(await user.comparePassword(password))) {
     c.status(401);
     throw new Error("Invalid credentials");
   } else {
@@ -32,7 +32,6 @@ auth.post("/login", async (c) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        isAdmin: user.isAdmin,
       },
       token,
       message: "User logged in successfully",

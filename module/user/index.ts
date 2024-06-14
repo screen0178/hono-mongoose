@@ -1,13 +1,19 @@
 import { Hono } from "hono";
-import { isAdmin, protect } from "../../middlewares";
-import User from "./model";
+import { protect } from "../../middlewares";
+import User, { IUserDoc } from "./model";
 import { genToken } from "../../utils";
+import { zValidator } from "@hono/zod-validator";
+import { createUser } from "./validation";
 
-const users = new Hono();
+type Variables = {
+  user: IUserDoc;
+};
+
+const users = new Hono<{ Variables: Variables }>();
 
 // Create User
-users.post("/", async (c) => {
-  const { name, email, password } = await c.req.json();
+users.post("/", zValidator("json", createUser), async (c) => {
+  const { name, username, email, password } = await c.req.json();
 
   const userExists = await User.findOne({ email });
   if (userExists) {
@@ -17,6 +23,7 @@ users.post("/", async (c) => {
 
   const user = await User.create({
     name,
+    username,
     email,
     password,
   });
@@ -35,7 +42,6 @@ users.post("/", async (c) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin: user.isAdmin,
     },
     token,
     message: "User created successfully",
@@ -43,7 +49,9 @@ users.post("/", async (c) => {
 });
 
 // Get All Users
-users.get("/", protect, isAdmin, async (c) => {
+users.get("/", protect, async (c) => {
+  const user = c.get("user");
+  console.log(user);
   const users = await User.find();
 
   return c.json({ users });
@@ -65,7 +73,6 @@ users.get("/:id", async (c) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin: user.isAdmin,
     },
     message: "User retrieved",
   });
@@ -85,7 +92,6 @@ users.put("/:id", async (c) => {
   user.updateOne();
   user.name = name;
   user.email = email;
-  user.isAdmin = isAdmin;
 
   // Save the updated user document
   await user.save();
@@ -96,7 +102,6 @@ users.put("/:id", async (c) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin: user.isAdmin,
     },
     message: "User updated",
   });
